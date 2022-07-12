@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce/models/product_model.dart';
 import 'package:ecommerce/utilities/assets.dart';
 import 'package:ecommerce/view/widgets/list_item_home.dart';
+import 'package:provider/provider.dart';
+
+import '../../controllers/database_controller.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -48,6 +51,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final database = Provider.of<Database>(context);
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
@@ -88,46 +92,78 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(children: [
-              _buildHeaderOfList(
-                context,
-                title: 'Sale',
-                description: 'Super Summer Sale!!',
-              ),
-              const SizedBox(height: 8.0),
-              SizedBox(
-                height: 320,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  children: dummyProducts
-                      .map((e) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListItemHome(product: e),
-                          ))
-                      .toList(),
+            child: Column(
+              children: [
+                _buildHeaderOfList(
+                  context,
+                  title: 'Sale',
+                  description: 'Super Summer Sale!!',
                 ),
-              ),
-              _buildHeaderOfList(
-                context,
-                title: 'New',
-                description: 'Super New Products!!',
-              ),
-              const SizedBox(height: 8.0),
-              SizedBox(
-                height: 320,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  children: dummyProducts
-                      .map((e) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListItemHome(product: e),
-                          ))
-                      .toList(),
+                const SizedBox(height: 8.0),
+                SizedBox(
+                  height: 320,
+                  child: StreamBuilder<List<Product>>(
+                      stream: database.salesProductStream(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.active) {
+                          final products = snapshot.data;
+                          if (products == null || products.isEmpty) {
+                            return const Center(
+                              child: Text('No Data Available!'),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: products.length,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (_, int index) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListItemHome(
+                                product: products[index],
+                              ),
+                            ),
+                          );
+                        }
+                        return const Center(child: CircularProgressIndicator());
+                      }),
                 ),
-              ),
-            ]),
+                _buildHeaderOfList(
+                  context,
+                  title: 'New',
+                  description: 'Super New Products!!',
+                ),
+                const SizedBox(height: 8.0),
+                SizedBox(
+                  height: 320,
+                  child: StreamBuilder<List<Product>>(
+                      stream: database.newProductStream(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.active) {
+                          final products = snapshot.data;
+                          if (products == null || products.isEmpty) {
+                            return const Center(
+                              child: Text('No Data Available!'),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: products.length,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (_, int index) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListItemHome(
+                                product: products[index],
+                              ),
+                            ),
+                          );
+                        }
+                        return const Center(child: CircularProgressIndicator());
+                      }),
+                ),
+              ],
+            ),
           ),
         ],
       ),

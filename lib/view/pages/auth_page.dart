@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import 'package:ecommerce/controllers/auth_controller.dart';
 import 'package:ecommerce/utilities/enums.dart';
-import 'package:ecommerce/utilities/routes.dart';
 import 'package:ecommerce/view/widgets/main_button.dart';
 
 class AuthPage extends StatefulWidget {
@@ -32,7 +31,7 @@ class _AuthPageState extends State<AuthPage> {
     try {
       await model.submit();
       if (!mounted) return;
-      Navigator.of(context).pushNamed(AppRoutes.bottomNavBarRoute);
+      //Navigator.of(context).pushNamed(AppRoutes.bottomNavBarRoute);
     } catch (e) {
       showDialog(
         context: context,

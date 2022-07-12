@@ -27,28 +27,29 @@ class ListItemHome extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 50,
-                      height: 25,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: Colors.red,
-                        ),
-                        child: Center(
-                          child: Text(
-                            '${product.discountValue}%',
-                            style:
-                                Theme.of(context).textTheme.caption!.copyWith(
-                                      color: Colors.white,
-                                    ),
+                  if (product.discountValue != 0)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 50,
+                        height: 25,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: Colors.red,
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${product.discountValue}%',
+                              style:
+                                  Theme.of(context).textTheme.caption!.copyWith(
+                                        color: Colors.white,
+                                      ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
               const SizedBox(height: 8.0),
@@ -89,17 +90,22 @@ class ListItemHome extends StatelessWidget {
                     TextSpan(
                       text: '${product.price}\$',
                       style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough,
+                            color: product.discountValue == 0
+                                ? Colors.red
+                                : Colors.grey,
+                            decoration: product.discountValue == 0
+                                ? TextDecoration.none
+                                : TextDecoration.lineThrough,
                           ),
                     ),
-                    TextSpan(
-                      text:
-                          ' ${product.price * (product.discountValue) / 100}\$',
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                            color: Colors.red,
-                          ),
-                    ),
+                    if (product.discountValue != 0)
+                      TextSpan(
+                        text:
+                            ' ${product.price * (product.discountValue) / 100}\$',
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                              color: Colors.red,
+                            ),
+                      ),
                   ],
                 ),
               ),

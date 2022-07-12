@@ -7,7 +7,7 @@ class Product {
   final String imgUrl;
   final int discountValue;
   final String category;
-  final double? rate;
+  final int? rate;
 
   Product({
     required this.id,
@@ -18,6 +18,30 @@ class Product {
     this.category = 'Other',
     this.rate,
   });
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'price': price,
+      'imgUrl': imgUrl,
+      'discountValue': discountValue,
+      'category': category,
+      'rate': rate,
+    };
+  }
+
+  factory Product.fromJson(Map<String, dynamic> json, String documentId) {
+    return Product(
+      id: documentId,
+      title: json['title'],
+      price: json['price'],
+      imgUrl: json['imgUrl'],
+      discountValue: json['discountValue'],
+      category: json['category'],
+      rate: json['rate'],
+    );
+  }
 }
 
 List<Product> dummyProducts = [
