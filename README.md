@@ -4,5 +4,6 @@ A new Flutter project.
 
 ## Getting Started
 
-- [add to cart screen](https://drive.google.com/file/d/1aOjjiDMQwOA0sd7UOyubZu1Zn5oTFcLS/view?usp=drivesdk)
-- [Home screen](https://drive.google.com/file/d/1aSqFd85McCNJWmHz6O1h5hju1D6E6zEK/view?usp=drivesdk)
+![2022-08-04 20 29 04](https://user-images.githubusercontent.com/78942298/182925520-322fc0bc-2c18-4cd9-b554-d54df3d2ea06.jpg)
+
+
