@@ -1,52 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:ecommerce/models/product_model.dart';
 import 'package:ecommerce/utilities/assets.dart';
 import 'package:ecommerce/view/widgets/list_item_home.dart';
-import 'package:provider/provider.dart';
 
 import '../../controllers/database_controller.dart';
+import '../widgets/header_of_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-
-  Widget _buildHeaderOfList(
-    BuildContext context, {
-    required String title,
-    VoidCallback? onTap,
-    required String description,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headline4!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-            ),
-            InkWell(
-              onTap: onTap,
-              child: Text(
-                'View All',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-            ),
-          ],
-        ),
-        Text(
-          description,
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                color: Colors.grey,
-              ),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +57,7 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               children: [
-                _buildHeaderOfList(
-                  context,
+                const BuildHeaderOfList(
                   title: 'Sale',
                   description: 'Super Summer Sale!!',
                 ),
@@ -128,8 +90,7 @@ class HomePage extends StatelessWidget {
                         return const Center(child: CircularProgressIndicator());
                       }),
                 ),
-                _buildHeaderOfList(
-                  context,
+                const BuildHeaderOfList(
                   title: 'New',
                   description: 'Super New Products!!',
                 ),
